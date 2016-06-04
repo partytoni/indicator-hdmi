@@ -12,9 +12,7 @@ from gi.repository import Notify as notify
 APPINDICATOR_ID = 'indicator-volume'
 
 def main():
-    cwd=os.getcwd()+'/volume.png'
-    print(cwd)
-    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(cwd), appindicator.IndicatorCategory.SYSTEM_SERVICES)
+    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath('/home/antonio/Documenti/scripts/indicator-volume/volume.png'), appindicator.IndicatorCategory.SYSTEM_SERVICES)
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
     indicator.set_menu(build_menu())
     notify.init(APPINDICATOR_ID)
