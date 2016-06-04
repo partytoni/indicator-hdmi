@@ -12,7 +12,7 @@ from gi.repository import Notify as notify
 APPINDICATOR_ID = 'indicator-volume'
 
 def main():
-    cwd=os.getcwd()+'/volume.png'
+    cwd=os.path.dirname(__file__)+'/volume.png'
     print(cwd)
     indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(cwd), appindicator.IndicatorCategory.SYSTEM_SERVICES)
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
@@ -42,6 +42,14 @@ def build_menu():
     item_150.connect('activate', volume_150)
     menu.append(item_150)
 
+    item_hdmi = gtk.MenuItem('HDMI Output')
+    item_hdmi.connect('activate', hdmi)
+    menu.append(item_hdmi)
+
+    item_pc = gtk.MenuItem('PC Output')
+    item_pc.connect('activate', pc)
+    menu.append(item_pc)
+
     item_quit = gtk.MenuItem('Quit')
     item_quit.connect('activate', quit)
     menu.append(item_quit)
@@ -50,18 +58,33 @@ def build_menu():
 
 def volume_110(_):
     os.system("pactl set-sink-volume 0 110%")
+    notify.init("Volume set to 110%")
+
 
 def volume_120(_):
     os.system("pactl set-sink-volume 0 120%")
+    notify.init("Volume set to 120%")
+
 
 def volume_130(_):
     os.system("pactl set-sink-volume 0 130%")
+    notify.init("Volume set to 130%")
+
 
 def volume_140(_):
     os.system("pactl set-sink-volume 0 140%")
+    notify.init("Volume set to 140%")
+
 
 def volume_150(_):
     os.system("pactl set-sink-volume 0 150%")
+    notify.init("Volume set to 150%")
+
+def hdmi(_):
+    os.system("pactl set-card-profile 0 output:hdmi-stereo")
+
+def pc(_):
+    os.system("pactl set-card-profile 0 output:analog-stereo")
 
 def quit(_):
     notify.uninit()
