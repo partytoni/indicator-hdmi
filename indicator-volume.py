@@ -3,21 +3,19 @@
 import os
 import signal
 import json
+import names
 
 from gi.repository import Gtk as gtk
 from gi.repository import AppIndicator3 as appindicator
 from gi.repository import Notify as notify
 
 
-APPINDICATOR_ID = 'indicator-volume'
-
 def main():
     cwd=os.path.dirname(__file__)+'/volume.png'
     print(cwd)
-    indicator = appindicator.Indicator.new(APPINDICATOR_ID, os.path.abspath(cwd), appindicator.IndicatorCategory.SYSTEM_SERVICES)
+    indicator = appindicator.Indicator.new("Indicator Volume", os.path.abspath(cwd), appindicator.IndicatorCategory.SYSTEM_SERVICES)
     indicator.set_status(appindicator.IndicatorStatus.ACTIVE)
     indicator.set_menu(build_menu())
-    notify.init(APPINDICATOR_ID)
     gtk.main()
 
 def build_menu():
@@ -81,10 +79,17 @@ def volume_150(_):
     notify.init("Volume set to 150%")
 
 def hdmi(_):
-    os.system("pactl set-card-profile 0 output:hdmi-stereo")
+    os.system("pactl set-card-profile 0 output:"+names.hdmi_audio)
+    os.system("xrandr --output "+names.pc_monitor+" --auto")
+    os.system("xrandr --output "+names.hdmi_monitor+" --auto")
+    os.system("xrandr --output "+names.pc_monitor+" --off")
+    
 
 def pc(_):
-    os.system("pactl set-card-profile 0 output:analog-stereo")
+    os.system("pactl set-card-profile 0 output:"+names.pc_audio)
+    os.system("xrandr --output "+names.hdmi_monitor+" --auto")
+    os.system("xrandr --output "+names.pc_monitor+" --auto")
+    os.system("xrandr --output "+names.hdmi_monitor+" --off")
 
 def quit(_):
     notify.uninit()

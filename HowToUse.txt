@@ -1,0 +1,12 @@
+Plug in the HDMI cable and run command: "pactl list cards".
+
+Detect cards for internal audio (usually "analog-stereo" or something like that")
+and for hdmi audio (usually "hdmi-stereo").
+
+Open file names.py and replace the two names.
+
+Run the command "xrandr --prop | grep "[^dis]connected" | cut --delimiter=" " -f1".
+The output shows the monitors connected. LVDS[...] is the internal monitor,
+HDMI[...] is the hdmi monitor.
+
+Open file names.py and replace the two names.
